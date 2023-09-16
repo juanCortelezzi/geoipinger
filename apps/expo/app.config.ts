@@ -20,6 +20,9 @@ const defineConfig = (): ExpoConfig => ({
   ios: {
     bundleIdentifier: "your.bundle.identifier",
     supportsTablet: true,
+    infoPlist: {
+      UIBackgroundModes: ["location", "fetch"],
+    },
   },
   android: {
     package: "your.bundle.identifier",
@@ -37,7 +40,19 @@ const defineConfig = (): ExpoConfig => ({
     tsconfigPaths: true,
     typedRoutes: true,
   },
-  plugins: ["expo-router", "./expo-plugins/with-modify-gradle.js"],
+  plugins: [
+    "expo-router",
+    "./expo-plugins/with-modify-gradle.js",
+    [
+      "expo-location",
+      {
+        isIosBackgroundLocationEnabled: true,
+        isAndroidBackgroundLocationEnabled: true,
+        locationAlwaysAndWhenInUsePermission:
+          "Allow $(PRODUCT_NAME) to use your location.",
+      },
+    ],
+  ],
 });
 
 export default defineConfig;
